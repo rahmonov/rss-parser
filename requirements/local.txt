@@ -1,0 +1,6 @@
+# install everything from base.txt
+-r base.txt
+
+# additional dependencies for local env only
+flake8
+ipython
