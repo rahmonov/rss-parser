@@ -16,6 +16,7 @@ User can filter through the news and send a pdf report to an email
  - DRF
  - SQLite
  - Celery
+ - RabbitMQ
  - AngularJS + Angular Material
  
 ## Installation
