@@ -13,7 +13,7 @@ class EntryCategory(CustomBaseModel):
         verbose_name = _('entry category')
         verbose_name_plural = _('entry categories')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
 
@@ -32,5 +32,5 @@ class Entry(CustomBaseModel):
         verbose_name = _('entry')
         verbose_name_plural = _('entries')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.title
