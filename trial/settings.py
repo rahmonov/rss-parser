@@ -152,7 +152,8 @@ CELERY_TIMEZONE = 'UTC'
 # General
 RSS_SOURCE = 'https://lenta.ru/rss'
 
-# Email
+# Email - some of the sensitive info here should be saved as environment
+# variables
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_HOST_USER = "partners@venta.uz"
