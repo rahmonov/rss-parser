@@ -1,0 +1,4 @@
+td, th{
+    padding: 5px !important;  /* important is needed to override md-data-table properties */
+    text-align: left !important;
+}

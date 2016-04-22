@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        {{title}}
+    </title>
+    <style type="text/css">
+        @font-face {
+            font-family: "code2000";
+            src: url("/static/CODE2000.ttf")
+        }
+
+        html {
+             font-family: code2000;
+        }
+
+        @page {
+            size: {{pagesize}};
+            margin: 1cm;
+            @frame footer {
+                -pdf-frame-content: footerContent;
+                bottom: 1cm;
+                margin-left: 1cm;
+                margin-right: 1cm;
+                height: 1cm;
+            }
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div>
+        <h1>Lenta.ru <span style="color: #FC0000;">digest</span></h1>
+    </div>
+    <hr/>
+
+    {% for entry in entries %}
+    	<h2>{{ entry.id }} {{ entry.title|upper }}</h2>
+    	<p style="margin-left:15px">{{ entry.link }}</p>
+	{% endfor %}
+
+</div>
+<div id="footerContent">
+    Page <pdf:pagenumber>
+</div>
+</body>
+</html>

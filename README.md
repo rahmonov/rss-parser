@@ -13,9 +13,10 @@ User can filter through the news and send a pdf report to an email
 ## Tech stack
 
  - Django
+ - DRF
  - SQLite
  - Celery
- - AngularJS
+ - AngularJS + Angular Material
  
 ## Installation
 

@@ -3,13 +3,14 @@ Django settings for trial project.
 """
 
 import os
+from os.path import normpath, join, dirname, abspath
+
 import rss
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from datetime import timedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -24,19 +25,32 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
-INSTALLED_APPS = [
-    'django.contrib.admin',
+DJANGO_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+)
 
-    # local apps
-    'rss'
-]
+LOCAL_APPS = (
+    'rss',
+)
 
+ADMIN_APPS = (
+    # Django admin panel and documentation:
+    'django.contrib.admin',
+    # 'django.contrib.admindocs',
+)
+
+THIRD_PARTY_APPS = (
+    'rest_framework',
+)
+
+
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + ADMIN_APPS + THIRD_PARTY_APPS
+
+# Middleware
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -53,7 +67,9 @@ ROOT_URLCONF = 'trial.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            normpath(join(BASE_DIR, 'templates')),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,6 +134,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
 # Celery conf
 CELERYBEAT_SCHEDULE = {
     'get-news-every-minute': {
@@ -131,3 +151,14 @@ CELERY_TIMEZONE = 'UTC'
 
 # General
 RSS_SOURCE = 'https://lenta.ru/rss'
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST_USER = "partners@venta.uz"
+EMAIL_HOST_PASSWORD = "shift203@)#"
+EMAIL_PORT = 465
+EMAIL_SUBJECT_PREFIX = 'Digest'
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER

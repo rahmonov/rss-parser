@@ -1,0 +1,92 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en" ng-app="digest">
+<head>
+    <meta charset="UTF-8">
+    <title>Digest - Lenta.ru</title>
+
+    <link type="text/css" rel="stylesheet" href="{% static 'css/vendor/angular-material.min.css'%}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/vendor/md-data-table.min.css'%}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/app.css' %}">
+
+    <script src="{% static 'js/vendor/angular.min.js' %}"></script>
+    <script src="{% static 'js/vendor/angular-animate.min.js' %}"></script>
+    <script src="{% static 'js/vendor/angular-aria.min.js' %}"></script>
+    <script src="{% static 'js/vendor/md-data-table.min.js' %}"></script>
+    <script src="{% static 'js/vendor/angular-material.min.js' %}"></script>
+
+    <script src="{% static 'js/app/app.js' %}"></script>
+    <script src="{% static 'js/app/services/entry-service.js' %}"></script>
+    <script src="{% static 'js/app/services/category-service.js' %}"></script>
+    <script src="{% static 'js/app/controllers/digest-controller.js' %}"></script>
+</head>
+<body ng-controller="DigestController as digestCtrl" layout="column">
+<md-content>
+    <md-toolbar class="md-hue-1">
+        <div class="md-toolbar-tools">
+            <h2 class="md-flex">Lenta.ru digest</h2>
+        </div>
+    </md-toolbar>
+
+    <div layout-gt-sm="column" style="padding: 15px;">
+        <div layout-gt-sm="row">
+            <md-autocomplete
+                md-autoselect="true"
+                md-no-cache="false"
+                md-selected-item="digestCtrl.selectedCategory"
+                md-search-text-change="digestCtrl.searchTextChange(digestCtrl.searchText)"
+                md-search-text="digestCtrl.searchText"
+                md-items="category in digestCtrl.categories"
+                md-item-text="category.name"
+                md-min-length="0"
+                placeholder="Type Category">
+                <md-item-template>
+                    <span md-highlight-text="digestCtrl.searchText" md-highlight-flags="^i">[[category.name]]</span>
+                </md-item-template>
+                <md-not-found>
+                    No states matching "[[digestCtrl.searchText]]" were found.
+                </md-not-found>
+            </md-autocomplete>
+
+            <md-datepicker ng-model="digestCtrl.fromDate" md-placeholder="Enter from date"></md-datepicker>
+            <md-datepicker ng-model="digestCtrl.toDate" md-placeholder="Enter to date"></md-datepicker>
+            <md-button class="md-raised md-warn" ng-click="digestCtrl.filterEntries()">Filter</md-button>
+        </div>
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block">
+                <input name="email" ng-model="digestCtrl.email" placeholder="Your email"
+                         required minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+            </md-input-container>
+            <md-input-container>
+                <md-button class="md-raised md-warn" ng-click="digestCtrl.sendReport()">Send</md-button>
+            </md-input-container>
+        </div>
+    </div>
+
+    <md-card>
+        <md-table-container>
+          <table md-table md-row-select multiple md-progress="promise">
+            <thead md-head>
+              <tr md-row>
+                <th md-column md-numeric>Title</th>
+                <th md-column md-numeric>Description</th>
+                <th md-column md-numeric>Published Date</th>
+                <th md-column md-numeric>Category</th>
+                <th md-column md-numeric>Link</th>
+              </tr>
+            </thead>
+            <tbody md-body>
+              <tr md-row md-select-id="name" md-auto-select ng-repeat="entry in digestCtrl.entries">
+                <td md-cell ng-bind="entry.title"></td>
+                <td md-cell ng-bind="entry.description"></td>
+                <td md-cell ng-bind="entry.published_date | date:'medium'"></td>
+                <td md-cell ng-bind="entry.category.name"></td>
+                <td md-cell ng-bind="entry.link"></td>
+              </tr>
+            </tbody>
+          </table>
+        </md-table-container>
+    </md-card>
+</md-content>
+</body>
+</html>
